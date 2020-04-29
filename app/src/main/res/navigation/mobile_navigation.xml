@@ -9,7 +9,14 @@
         android:id="@+id/navigation_home"
         android:name="com.oksik.okmap.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_informationDialogFragment"
+            app:destination="@id/informationDialogFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_plantSearchFragment"
+            app:destination="@id/plantSearchFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -22,4 +29,18 @@
         android:name="com.oksik.okmap.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <dialog
+        android:id="@+id/informationDialogFragment"
+        android:name="com.oksik.okmap.ui.dialog_information.InformationDialogFragment"
+        android:label="information_dialog_fragment"
+        tools:layout="@layout/information_dialog_fragment" >
+        <argument
+            android:name="selectedPlant"
+            app:argType="com.oksik.okmap.model.Plant"
+            app:nullable="true" />
+    </dialog>
+    <fragment
+        android:id="@+id/plantSearchFragment"
+        android:name="com.oksik.okmap.ui.plant_search.PlantSearchFragment"
+        android:label="PlantSearchFragment" />
 </navigation>

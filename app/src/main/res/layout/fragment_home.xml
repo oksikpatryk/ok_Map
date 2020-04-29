@@ -26,24 +26,61 @@
             tools:context=".ui.home.HomeFragment" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_information"
             android:layout_width="375dp"
             android:layout_height="100dp"
             android:layout_marginBottom="70dp"
             android:background="@color/cardview_light_background"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:onClick="@{() -> viewModel.toString()}"
             android:orientation="vertical"
             android:outlineSpotShadowColor="#DC37D3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="fef" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:setMiniImage="@{viewModel.selectedPlant.miniImageUrl}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.selectedPlant.name}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@{viewModel.selectedPlant.description}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/plant_search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="wyszukaj"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

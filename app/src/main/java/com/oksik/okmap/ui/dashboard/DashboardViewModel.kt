@@ -4,9 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.QuerySnapshot
-import com.oksik.okmap.model.AddressItem
 import com.oksik.okmap.model.Plant
 import com.oksik.okmap.repository.FirestoreRepository
 
