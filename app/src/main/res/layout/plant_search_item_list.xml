@@ -2,19 +2,20 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="viewModel"
-            type="com.oksik.okmap.ui.plant_search.PlantSearchViewModel" />
+            name="clickListener"
+            type="com.oksik.okmap.ui.plant_search.PlantSearchClickListener" />
         <variable
             name="plant"
             type="com.oksik.okmap.model.Plant" />
     </data>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(plant)}">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:setPlantName="@{plant}"/>
+            app:setPlantName="@{plant.name}"/>
     </LinearLayout>
 </layout>

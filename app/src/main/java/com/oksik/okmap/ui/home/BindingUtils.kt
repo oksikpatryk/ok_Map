@@ -1,22 +1,13 @@
 package com.oksik.okmap.ui.home
 
-import android.os.RemoteException
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import androidx.databinding.InverseBindingAdapter
-import androidx.databinding.InverseBindingListener
 import com.bumptech.glide.Glide
-import com.google.android.gms.internal.maps.zzb
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.internal.IGoogleMapDelegate
-import com.google.android.gms.maps.internal.zzar
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.RuntimeRemoteException
-import com.google.firebase.firestore.GeoPoint
+import com.google.android.gms.maps.model.*
+import com.oksik.okmap.R
 import com.oksik.okmap.model.Plant
 
 
@@ -24,14 +15,33 @@ import com.oksik.okmap.model.Plant
 fun initMap(mapView: MapView?, listPlant: List<Plant>?) {
     mapView?.getMapAsync { googleMap ->
         if (listPlant != null) {
+            googleMap.clear()
             for (plant in listPlant) {
+                var icon: BitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.marker)
                 var latLng = LatLng(plant.location!!.latitude, plant.location!!.longitude)
                 var newMarker =
                     googleMap.addMarker(MarkerOptions().position(latLng).title(plant.name))
                 newMarker.tag = plant
+                newMarker.setIcon(icon)
             }
         }
         googleMap.isMyLocationEnabled = true
+
+//        val ADELAIDE = LatLngBounds(
+//            LatLng(51.740622, 19.489213),
+//            LatLng(51.743278, 19.502951)
+//        )
+//        googleMap.setLatLngBoundsForCameraTarget(ADELAIDE)
+    }
+}
+
+@BindingAdapter("zoomCenterToPlant")
+fun zoomCenterToPlant(mapView: MapView?, plant: Plant?) {
+    mapView?.getMapAsync { googleMap ->
+        if (plant != null) {
+            val latLng = LatLng(plant.location!!.latitude, plant.location!!.longitude)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10F))
+        }
     }
 }
 
@@ -53,8 +63,8 @@ fun setMiniImage(imgView: ImageView, imgUrl: String?) {
 }
 
 @BindingAdapter("setPlantName")
-fun TextView.setPlantName(name: Plant) {
-    name.let { text = name.name }
+fun TextView.setPlantName(name: String) {
+    name.let { text = name }
 }
 
 //@BindingAdapter("nic")

@@ -9,13 +9,18 @@
         android:id="@+id/navigation_home"
         android:name="com.oksik.okmap.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_informationDialogFragment"
             app:destination="@id/informationDialogFragment" />
         <action
             android:id="@+id/action_navigation_home_to_plantSearchFragment"
             app:destination="@id/plantSearchFragment" />
+        <argument
+            android:name="searchedPlant"
+            app:argType="com.oksik.okmap.model.Plant"
+            android:defaultValue="@null"
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -33,14 +38,22 @@
         android:id="@+id/informationDialogFragment"
         android:name="com.oksik.okmap.ui.dialog_information.InformationDialogFragment"
         android:label="information_dialog_fragment"
-        tools:layout="@layout/information_dialog_fragment" >
+        tools:layout="@layout/information_dialog_fragment">
         <argument
             android:name="selectedPlant"
             app:argType="com.oksik.okmap.model.Plant"
-            app:nullable="true" />
+            app:nullable="true"/>
     </dialog>
     <fragment
         android:id="@+id/plantSearchFragment"
         android:name="com.oksik.okmap.ui.plant_search.PlantSearchFragment"
-        android:label="PlantSearchFragment" />
+        android:label="PlantSearchFragment">
+        <action
+            android:id="@+id/action_plantSearchFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="true"
+            app:launchSingleTop="true" />
+
+    </fragment>
 </navigation>

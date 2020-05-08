@@ -3,11 +3,9 @@ package com.oksik.okmap.ui.home
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -15,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.Marker
 import com.oksik.okmap.databinding.FragmentHomeBinding
 import com.oksik.okmap.model.Plant
 
@@ -33,11 +30,17 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     ): View? {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val binding = FragmentHomeBinding.inflate(inflater)
+        val plant = HomeFragmentArgs.fromBundle(requireArguments()).searchedPlant
+
+        if (plant != null) {
+            homeViewModel.setSearchedPlant(plant)
+            homeViewModel.setSelectedPlant(plant)
+        }
+
         binding.lifecycleOwner = this
         binding.viewModel = homeViewModel
-        mMapView = binding.map1
 
-        setOnClickListeners(binding)
+        mMapView = binding.map1
 
         if (ContextCompat.checkSelfPermission(
                 this.requireContext(),
@@ -50,6 +53,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             initMapView(savedInstanceState)
         }
 
+        setOnClickListeners(binding)
         return binding.root
     }
 
@@ -89,13 +93,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onResume() {
-        super.onResume()
         mMapView.onResume()
+        super.onResume()
     }
 
     override fun onStart() {
-        super.onStart()
         mMapView.onStart()
+        super.onStart()
     }
 
     override fun onStop() {
@@ -114,8 +118,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onLowMemory() {
-        super.onLowMemory()
         mMapView.onLowMemory()
+        super.onLowMemory()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -123,6 +127,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             homeViewModel.setSelectedPlant(marker.tag as Plant)
             false
         }
+
     }
 }
 

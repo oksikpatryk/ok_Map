@@ -12,20 +12,32 @@ class DashboardViewModel : ViewModel() {
     val TAG = "FIRESTORE_VIEW_MODEL"
     var firebaseRepository = FirestoreRepository()
 
-    private val _getAllPlants = MutableLiveData<MutableList<Plant>>()
-    val getAllPlants: LiveData<MutableList<Plant>>?
-        get() = _getAllPlants
+    private val _getAllPlants = MutableLiveData<List<Plant>>()
+
+    private val _getPlantsCreatedLast5days = MutableLiveData<List<Plant>>()
+    val getPlantsCreatedLast5days: LiveData<List<Plant>>
+        get() = _getPlantsCreatedLast5days
 
     init {
         getSavedAddresses()
+        getPlantsCreatedLast5days()
     }
 
     private fun getSavedAddresses() {
-        firebaseRepository.getSavedAddress().get()
+        firebaseRepository.getAllPlants().get()
             .addOnSuccessListener { result ->
                 _getAllPlants.value = result.toObjects(Plant::class.java)
             }
             .addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting documents: ", exception)
+            }
+    }
+
+    private fun getPlantsCreatedLast5days() {
+        firebaseRepository.getPlantsCreatedLast5days().get()
+            .addOnSuccessListener { result ->
+                _getPlantsCreatedLast5days.value = result.toObjects(Plant::class.java)
+            }.addOnFailureListener { exception ->
                 Log.d(TAG, "Error getting documents: ", exception)
             }
     }

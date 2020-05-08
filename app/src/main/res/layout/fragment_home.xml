@@ -13,12 +13,65 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <Button
+            android:id="@+id/plant_search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="wyszukaj"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <Button
+            android:id="@+id/plant_all_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.getAllPlants()}"
+            android:text="all"
+            app:layout_constraintBottom_toBottomOf="@+id/plant_search_btn"
+            app:layout_constraintEnd_toStartOf="@+id/plant_search_btn"
+            app:layout_constraintTop_toTopOf="@+id/plant_search_btn"
+            app:layout_constraintVertical_chainStyle="spread"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Button
+            android:id="@+id/plant_type_tree_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.getAllTrees()}"
+            android:text="trees"
+            app:layout_constraintBottom_toBottomOf="@+id/plant_search_btn"
+            app:layout_constraintEnd_toStartOf="@+id/plant_all_btn"
+            app:layout_constraintTop_toTopOf="@+id/plant_search_btn" />
+
+        <Button
+            android:id="@+id/plant_type_shrub_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.getAllShrubs()}"
+            android:text="shrubs"
+            app:layout_constraintBottom_toBottomOf="@+id/plant_search_btn"
+            app:layout_constraintEnd_toStartOf="@+id/plant_type_tree_btn"
+            app:layout_constraintTop_toTopOf="@+id/plant_search_btn" />
+
+        <Button
+            android:id="@+id/plant_type_flower_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.getAllFlowers()}"
+            android:text="flowers"
+            app:layout_constraintBottom_toBottomOf="@+id/plant_search_btn"
+            app:layout_constraintEnd_toStartOf="@+id/plant_type_shrub_btn"
+            app:layout_constraintTop_toTopOf="@+id/plant_search_btn" />
+
         <com.google.android.gms.maps.MapView
             android:id="@+id/map1"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:initMap="@{viewModel.getAllPlants}"
+            app:initMap="@{viewModel.getAllPlantsToShow}"
+            app:zoomCenterToPlant="@{viewModel.searchedPlant}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,15 +125,5 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
-
-        <Button
-            android:id="@+id/plant_search_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="wyszukaj"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

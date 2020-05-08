@@ -8,18 +8,20 @@ import com.oksik.okmap.model.Plant
 import com.oksik.okmap.repository.FirestoreRepository
 
 class PlantSearchViewModel : ViewModel() {
-    var firestoreRepository = FirestoreRepository()
+    private var firestoreRepository = FirestoreRepository()
 
     private val _allPlants = MutableLiveData<List<Plant>>()
     val allPlants: LiveData<List<Plant>>
         get() = _allPlants
+
+    val searchPlantName = MutableLiveData<String>()
 
     init {
         getAllPlants()
     }
 
     private fun getAllPlants() {
-        firestoreRepository.getSavedAddress().get()
+        firestoreRepository.getAllPlants().get()
             .addOnFailureListener { exception ->
                 Log.d("TAG", "Error getting documents: ", exception)
             }
