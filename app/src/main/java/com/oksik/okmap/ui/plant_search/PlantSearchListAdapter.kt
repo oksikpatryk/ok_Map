@@ -1,23 +1,22 @@
 package com.oksik.okmap.ui.plant_search
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.oksik.okmap.databinding.PlantSearchItemListBinding
 import com.oksik.okmap.model.Plant
 
-class PlantSearchListAdapter(val plantSearchClickListener: PlantSearchClickListener) :
+class PlantSearchListAdapter(private val plantSearchClickListener: PlantSearchClickListener) :
     ListAdapter<Plant, PlantSearchListAdapter.ViewHolder>(PlatListDiffCallback()), Filterable {
     var filteredList: MutableList<Plant> = currentList
     var plantList: MutableList<Plant>? = null
 
-    class ViewHolder private constructor(val binding: PlantSearchItemListBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder private constructor(val binding: PlantSearchItemListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Plant, plantSearchClickListener: PlantSearchClickListener) {
             binding.plant = item
             binding.clickListener = plantSearchClickListener
@@ -50,7 +49,11 @@ class PlantSearchListAdapter(val plantSearchClickListener: PlantSearchClickListe
                 filteredList = if (constraint.toString().isEmpty()) {
                     plantList as MutableList<Plant>
                 } else {
-                    plantList!!.filter { plant -> plant.name!!.contains(constraint.toString().trim(), ignoreCase = true) }
+                    plantList!!.filter { plant ->
+                        plant.name!!.contains(
+                            constraint.toString().trim(), ignoreCase = true
+                        )
+                    }
                         .toMutableList()
                 }
 
@@ -79,6 +82,6 @@ class PlatListDiffCallback : DiffUtil.ItemCallback<Plant>() {
 
 }
 
-class PlantSearchClickListener(val clickListener: (plant: Plant) -> Unit){
+class PlantSearchClickListener(val clickListener: (plant: Plant) -> Unit) {
     fun onClick(plant: Plant) = clickListener(plant)
 }
