@@ -13,17 +13,20 @@ class DashboardViewModel : ViewModel() {
     var firebaseRepository = FirestoreRepository()
 
     private val _getAllPlants = MutableLiveData<List<Plant>>()
+    val getAllPlants: LiveData<List<Plant>>
+        get() = _getAllPlants
+
 
     private val _getPlantsCreatedLast5days = MutableLiveData<List<Plant>>()
     val getPlantsCreatedLast5days: LiveData<List<Plant>>
         get() = _getPlantsCreatedLast5days
 
     init {
-        getSavedAddresses()
+        getAllPlants()
         getPlantsCreatedLast5days()
     }
 
-    private fun getSavedAddresses() {
+    private fun getAllPlants() {
         firebaseRepository.getAllPlants().get()
             .addOnSuccessListener { result ->
                 _getAllPlants.value = result.toObjects(Plant::class.java)
