@@ -22,7 +22,9 @@ class PlantSearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this).get(PlantSearchViewModel::class.java)
+        val application = requireNotNull(this.activity).application
+        val viewModelFactory = PlantSearchViewModelFactory(application)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PlantSearchViewModel::class.java)
         val binding = PlantSearchFragmentBinding.inflate(inflater)
         val plantSearchAdapter = PlantSearchListAdapter(PlantSearchClickListener { plant ->
             this.findNavController().navigate(PlantSearchFragmentDirections.actionPlantSearchFragmentToNavigationHome(plant))

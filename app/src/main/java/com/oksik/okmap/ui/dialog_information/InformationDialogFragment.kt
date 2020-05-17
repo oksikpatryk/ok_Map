@@ -22,8 +22,10 @@ class InformationDialogFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this).get(InformationDialogViewModel::class.java)
-        viewModel.selectedPlant.value = InformationDialogFragmentArgs.fromBundle(arguments!!).selectedPlant
+        val application = requireNotNull(this.activity).application
+        val viewModelFactory = InformationDialogViewModelFactory(application)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(InformationDialogViewModel::class.java)
+        viewModel.selectedPlant.value = InformationDialogFragmentArgs.fromBundle(requireArguments()).selectedPlant
 
         val binding = InformationDialogFragmentBinding.inflate(inflater)
         binding.lifecycleOwner = this

@@ -1,14 +1,20 @@
 package com.oksik.okmap.model
 
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.GeoPoint
 import java.io.Serializable
 
 data class Plant(
-    var name: String? = null,
+    var id: String? = null,
     var type: String? = null,
-    var location: GeoPoint? = null,
+    var name: String? = null,
+    var latitude: Double? = null,
+    var longitude: Double? = null,
     var description: String? = null,
     var miniImageUrl: String? = null,
     var createDate: Timestamp? = null
-) : Serializable
+) : Serializable {
+    override fun equals(other: Any?): Boolean {
+        val that = other as Plant
+        return this.latitude == that.latitude && this.longitude == that.longitude
+    }
+}

@@ -1,16 +1,18 @@
 package com.oksik.okmap.ui.home
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.oksik.okmap.model.Plant
-import com.oksik.okmap.repository.FirestoreRepository
+import com.oksik.okmap.repository.Repository
+import com.oksik.okmap.ui.getPlantsWithIds
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(application: Application) : ViewModel() {
 
     val TAG = "FIRESTORE_VIEW_MODEL"
-    var firebaseRepository = FirestoreRepository()
+    var firebaseRepository = Repository(application)
 
     private val _getAllPlants = MutableLiveData<List<Plant>>()
 
@@ -42,7 +44,7 @@ class HomeViewModel : ViewModel() {
     private fun getAllPlantsFromDb() {
         firebaseRepository.getAllPlants().get()
             .addOnSuccessListener { result ->
-                _getAllPlants.value = result.toObjects(Plant::class.java)
+                _getAllPlants.value = getPlantsWithIds(result)
                 _getAllPlantsToShow.value = _getAllPlants.value
             }
             .addOnFailureListener { exception ->

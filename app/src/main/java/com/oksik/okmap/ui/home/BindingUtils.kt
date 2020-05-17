@@ -18,7 +18,7 @@ fun initMap(mapView: MapView?, listPlant: List<Plant>?) {
             googleMap.clear()
             for (plant in listPlant) {
                 var icon: BitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.marker)
-                var latLng = LatLng(plant.location!!.latitude, plant.location!!.longitude)
+                var latLng = LatLng(plant.latitude!!, plant.longitude!!)
                 var newMarker =
                     googleMap.addMarker(MarkerOptions().position(latLng).title(plant.name))
                 newMarker.tag = plant
@@ -39,7 +39,7 @@ fun initMap(mapView: MapView?, listPlant: List<Plant>?) {
 fun zoomCenterToPlant(mapView: MapView?, plant: Plant?) {
     mapView?.getMapAsync { googleMap ->
         if (plant != null) {
-            val latLng = LatLng(plant.location!!.latitude, plant.location!!.longitude)
+            val latLng = LatLng(plant.latitude!!, plant.longitude!!)
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10F))
         }
     }

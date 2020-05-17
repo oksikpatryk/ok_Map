@@ -28,7 +28,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        val application = requireNotNull(this.activity).application
+        val viewModelFactory = HomeViewModelFactory(application)
+        homeViewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
         val binding = FragmentHomeBinding.inflate(inflater)
         val plant = HomeFragmentArgs.fromBundle(requireArguments()).searchedPlant
 

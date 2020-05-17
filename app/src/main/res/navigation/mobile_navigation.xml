@@ -33,7 +33,7 @@
         android:id="@+id/navigation_notifications"
         android:name="com.oksik.okmap.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_notificationss" />
     <dialog
         android:id="@+id/informationDialogFragment"
         android:name="com.oksik.okmap.ui.dialog_information.InformationDialogFragment"

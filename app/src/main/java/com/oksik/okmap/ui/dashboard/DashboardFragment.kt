@@ -18,8 +18,11 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel = ViewModelProviders.of(this).get(DashboardViewModel::class.java)
+        val application = requireNotNull(this.activity).application
+        val viewModelFactory = DashboardViewModelFactory(application)
+        dashboardViewModel = ViewModelProviders.of(this, viewModelFactory).get(DashboardViewModel::class.java)
         val binding = FragmentDashboardBinding.inflate(inflater)
+
         val dashboardNewPlants = DashboardPlantListAdapter()
         val dashboardAllPlants = DashboardPlantListAdapter()
 
