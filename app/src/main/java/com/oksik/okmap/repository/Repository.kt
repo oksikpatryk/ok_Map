@@ -1,47 +1,86 @@
 package com.oksik.okmap.repository
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.oksik.okmap.model.LikedPlant
 import com.oksik.okmap.model.Plant
+import com.oksik.okmap.ui.getPlantsWithIds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
 
 class Repository(application: Application) {
 
+    private val TAG = "repository"
     private val firestoreDB = FirebaseFirestore.getInstance()
     private var localPlantDatabase: PlantDatabaseDao =
         PlantDatabase.getInstance(application).plantDatabaseDao
 
-     fun getAllLikedPlantsIds() = localPlantDatabase.getAll()
+    private val likedPlantsIds = localPlantDatabase.getAll()
+    private val _allLikedPlants = MutableLiveData<List<Plant>>()
+    val allLikedPlants: LiveData<List<Plant>> =
+        Transformations.switchMap(likedPlantsIds) { getAllLikedPlants() }
 
-//    val getAllLikedPlantsIds: LiveData<List<LikedPlant>> = localPlantDatabase.getAll()
+    fun getAllPlants(): MutableLiveData<List<Plant>> {
+        val allPlants = MutableLiveData<List<Plant>>()
+        firestoreDB.collection("plants").get()
+            .addOnSuccessListener { result ->
+                allPlants.value = getPlantsWithIds(result)
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting documents: ", exception)
+            }
+        return allPlants
+    }
 
+    private fun getAllLikedPlants(): MutableLiveData<List<Plant>> {
+        var plantsList = listOf<Plant>()
+        if (!likedPlantsIds.value.isNullOrEmpty()) {
+            for (plant in likedPlantsIds.value!!) {
+                firestoreDB.collection("plants").document(plant.id).get()
+                    .addOnSuccessListener { result ->
+                        plantsList = plantsList.plus(
+                            result.toObject(Plant::class.java)
+                        ) as List<Plant>
+                        _allLikedPlants.value = plantsList
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.d(TAG, "Error getting documents: ", exception)
+                    }
+            }
+        }
+        return _allLikedPlants
+    }
 
-    suspend fun insert(likedPlant: LikedPlant) {
+    fun getPlantsCreatedLast5days(): MutableLiveData<List<Plant>> {
+        val plantsCreatedLast5days = MutableLiveData<List<Plant>>()
+        val fiveDaysInMilliseconds = 1000 * 60 * 60 * 24 * 5
+        firestoreDB.collection("plants")
+            .whereGreaterThan("createDate", Timestamp(Date(Date().time - fiveDaysInMilliseconds)))
+            .get()
+            .addOnSuccessListener { result ->
+                plantsCreatedLast5days.value = getPlantsWithIds(result)
+            }.addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting documents: ", exception)
+            }
+        return plantsCreatedLast5days
+    }
+
+    suspend fun likePlant(likedPlant: LikedPlant) {
         withContext(Dispatchers.IO) {
             localPlantDatabase.insertPlant(likedPlant)
         }
     }
 
-    fun getAllPlants(): CollectionReference {
-        return firestoreDB.collection("plants")
+    suspend fun delete() {
+        withContext(Dispatchers.IO) {
+            localPlantDatabase.deleteAllPlants()
+        }
     }
-
-    fun getPlantById(plantId: String): DocumentReference {
-        return firestoreDB.collection("plants").document(plantId)
-    }
-
-    fun getPlantsCreatedLast5days(): Query {
-        val fiveDaysInMilliseconds = 1000 * 60 * 60 * 24 * 5
-        return firestoreDB.collection("plants")
-            .whereGreaterThan("createDate", Timestamp(Date(Date().time - fiveDaysInMilliseconds)))
-    }
-
 }

@@ -17,9 +17,9 @@ fun initMap(mapView: MapView?, listPlant: List<Plant>?) {
         if (listPlant != null) {
             googleMap.clear()
             for (plant in listPlant) {
-                var icon: BitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.marker)
-                var latLng = LatLng(plant.latitude!!, plant.longitude!!)
-                var newMarker =
+                val icon: BitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.marker)
+                val latLng = LatLng(plant.latitude!!, plant.longitude!!)
+                val newMarker =
                     googleMap.addMarker(MarkerOptions().position(latLng).title(plant.name))
                 newMarker.tag = plant
                 newMarker.setIcon(icon)

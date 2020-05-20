@@ -35,15 +35,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:listitem="@layout/dashboard_new_plant_item_list" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{String.valueOf(viewModel.all.size())}"
-            app:layout_constraintBottom_toTopOf="@+id/dashboard_all_plants"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dashboard_new_plants" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

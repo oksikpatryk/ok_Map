@@ -37,7 +37,7 @@ class InformationDialogViewModel(application: Application) : ViewModel() {
     fun insertLikedPlant() {
         uiScope.launch {
             val likedPlant = LikedPlant(selectedPlant.value!!.id!!)
-            repository.insert(likedPlant)
+            repository.likePlant(likedPlant)
         }
     }
 

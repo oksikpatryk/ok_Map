@@ -1,24 +1,20 @@
 package com.oksik.okmap.ui.home
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.oksik.okmap.model.Plant
 import com.oksik.okmap.repository.Repository
-import com.oksik.okmap.ui.getPlantsWithIds
 
 class HomeViewModel(application: Application) : ViewModel() {
+    private val repository = Repository(application)
 
-    val TAG = "FIRESTORE_VIEW_MODEL"
-    var firebaseRepository = Repository(application)
+    private val _allPlants = repository.getAllPlants()
 
-    private val _getAllPlants = MutableLiveData<List<Plant>>()
-
-    private val _getAllPlantsToShow = MutableLiveData<List<Plant>>()
-    val getAllPlantsToShow: LiveData<List<Plant>>?
-        get() = _getAllPlantsToShow
+    private var _filteredPlants = MutableLiveData<List<Plant>>()
+    val filteredPlants: LiveData<List<Plant>>?
+        get() = _filteredPlants
 
     private val _selectedPlant = MutableLiveData<Plant>()
     val selectedPlant: LiveData<Plant>?
@@ -37,34 +33,22 @@ class HomeViewModel(application: Application) : ViewModel() {
     }
 
     init {
-        _getAllPlants.value = emptyList()
-        getAllPlantsFromDb()
+        _filteredPlants = repository.getAllPlants()
     }
 
-    private fun getAllPlantsFromDb() {
-        firebaseRepository.getAllPlants().get()
-            .addOnSuccessListener { result ->
-                _getAllPlants.value = getPlantsWithIds(result)
-                _getAllPlantsToShow.value = _getAllPlants.value
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "Error getting documents: ", exception)
-            }
+    fun filterTrees() {
+        _filteredPlants.value = _allPlants.value?.filter { plant -> plant.type == "tree" }
     }
 
-    fun getAllTrees() {
-        _getAllPlantsToShow.value = _getAllPlants.value?.filter { plant -> plant.type == "tree" }
+    fun filterShrubs() {
+        _filteredPlants.value = _allPlants.value?.filter { plant -> plant.type == "shrub" }
     }
 
-    fun getAllShrubs() {
-        _getAllPlantsToShow.value = _getAllPlants.value?.filter { plant -> plant.type == "shrub" }
+    fun filterFlowers() {
+        _filteredPlants.value = _allPlants.value?.filter { plant -> plant.type == "flower" }
     }
 
-    fun getAllFlowers() {
-        _getAllPlantsToShow.value = _getAllPlants.value?.filter { plant -> plant.type == "flower" }
-    }
-
-    fun getAllPlants() {
-        _getAllPlantsToShow.value = _getAllPlants.value
+    fun filterPlants() {
+        _filteredPlants.value = _allPlants.value
     }
 }
