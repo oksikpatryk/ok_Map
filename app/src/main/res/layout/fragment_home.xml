@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.oksik.okmap.ui.home.HomeViewModel" />
@@ -84,9 +85,8 @@
             android:layout_height="100dp"
             android:layout_marginBottom="70dp"
             android:background="@color/cardview_light_background"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:orientation="vertical"
+            android:visibility="@{viewModel.selectedPlant == null ? View.GONE : View.VISIBLE}"
             android:outlineSpotShadowColor="#DC37D3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

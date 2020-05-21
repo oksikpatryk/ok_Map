@@ -129,6 +129,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             homeViewModel.setSelectedPlant(marker.tag as Plant)
             false
         }
+
+        googleMap.setOnMapClickListener {
+            homeViewModel.setSelectedPlant(null)
+        }
     }
 }
 
