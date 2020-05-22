@@ -1,11 +1,8 @@
 package com.oksik.okmap.ui.home
 
 import android.app.Application
-import android.opengl.Visibility
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.oksik.okmap.model.Plant
 import com.oksik.okmap.repository.Repository

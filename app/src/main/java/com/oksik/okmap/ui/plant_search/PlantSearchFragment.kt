@@ -1,17 +1,13 @@
 package com.oksik.okmap.ui.plant_search
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.oksik.okmap.R
 import com.oksik.okmap.databinding.PlantSearchFragmentBinding
 
 

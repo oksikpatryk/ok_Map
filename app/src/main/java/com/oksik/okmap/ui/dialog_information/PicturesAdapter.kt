@@ -6,8 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.oksik.okmap.databinding.InformationDialogImagesItemBinding
-import com.oksik.okmap.model.Plant
-import com.oksik.okmap.ui.plant_search.PlatListDiffCallback
 
 class PicturesAdapter : ListAdapter<String, PicturesAdapter.ViewHolder>(StringDiffCallback()) {
     class ViewHolder private constructor(val binding: InformationDialogImagesItemBinding) :
