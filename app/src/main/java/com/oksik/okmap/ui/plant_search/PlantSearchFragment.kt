@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.oksik.okmap.databinding.PlantSearchFragmentBinding
@@ -20,7 +21,7 @@ class PlantSearchFragment : Fragment() {
     ): View? {
         val application = requireNotNull(this.activity).application
         val viewModelFactory = PlantSearchViewModelFactory(application)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PlantSearchViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(PlantSearchViewModel::class.java)
         val binding = PlantSearchFragmentBinding.inflate(inflater)
         val plantSearchAdapter = PlantSearchListAdapter(PlantSearchClickListener { plant ->
             this.findNavController().navigate(PlantSearchFragmentDirections.actionPlantSearchFragmentToNavigationHome(plant))

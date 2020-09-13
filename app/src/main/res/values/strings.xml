@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">ok Map</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="app_name">przewodnik</string>
+    <string name="title_activity_maps">przewodnik</string>
+    <string name="title_activity_main">przewodnik</string>
+    <string name="title_home">Mapa</string>
+    <string name="title_dashboard">Wyszukaj</string>
     <string name="title_notifications">Notifications</string>
 </resources>

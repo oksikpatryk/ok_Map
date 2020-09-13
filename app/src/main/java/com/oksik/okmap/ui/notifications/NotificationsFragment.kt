@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.oksik.okmap.databinding.FragmentNotificationssBinding
 import com.oksik.okmap.ui.dashboard.DashboardPlantListAdapter
@@ -22,7 +23,7 @@ class NotificationsFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         val notificationViewModelFactory = NotificationViewModelFactory(application)
         notificationsViewModel =
-            ViewModelProviders.of(this, notificationViewModelFactory).get(NotificationsViewModel::class.java)
+            ViewModelProvider(this, notificationViewModelFactory).get(NotificationsViewModel::class.java)
         val binding = FragmentNotificationssBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = notificationsViewModel
@@ -30,7 +31,7 @@ class NotificationsFragment : Fragment() {
         val dashboardNewPlants = DashboardPlantListAdapter()
         binding.likedPlantsList.adapter = dashboardNewPlants
 
-        notificationsViewModel.getAllLikedPlants?.observe(viewLifecycleOwner, Observer { dashboardNewPlants.submitList(it)})
+//        notificationsViewModel.getAllLikedPlants.observe(viewLifecycleOwner, Observer { dashboardNewPlants.submitList(it)})
 
         return binding.root
     }

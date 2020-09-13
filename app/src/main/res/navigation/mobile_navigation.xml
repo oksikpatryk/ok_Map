@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/startFragment">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -21,6 +21,10 @@
             app:argType="com.oksik.okmap.model.Plant"
             android:defaultValue="@null"
             app:nullable="true" />
+        <argument
+            android:name="findNearestPlant"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
 
     <fragment
@@ -47,13 +51,29 @@
     <fragment
         android:id="@+id/plantSearchFragment"
         android:name="com.oksik.okmap.ui.plant_search.PlantSearchFragment"
-        android:label="PlantSearchFragment">
+        android:label="plant_search_fragment">
         <action
             android:id="@+id/action_plantSearchFragment_to_navigation_home"
             app:destination="@id/navigation_home"
+            app:launchSingleTop="true"
             app:popUpTo="@id/navigation_home"
-            app:popUpToInclusive="true"
-            app:launchSingleTop="true" />
+            app:popUpToInclusive="true" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="com.oksik.okmap.ui.start.StartFragment"
+        android:label="start_fragment"
+        tools:layout="@layout/start_fragment" >
+        <action
+            android:id="@+id/action_startFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/startFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_startFragment_to_plantSearchFragment"
+            app:destination="@id/plantSearchFragment"
+            app:popUpTo="@id/startFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

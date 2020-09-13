@@ -22,39 +22,49 @@ class Repository(application: Application) {
         PlantDatabase.getInstance(application).plantDatabaseDao
 
     private val likedPlantsIds = localPlantDatabase.getAll()
-    private val _allLikedPlants = MutableLiveData<List<Plant>>()
-    val allLikedPlants: LiveData<List<Plant>> =
+    private val _allLikedPlants = MutableLiveData<MutableList<Plant>>()
+    val allLikedPlants: LiveData<MutableList<Plant>> =
         Transformations.switchMap(likedPlantsIds) { getAllLikedPlants() }
 
     fun getAllPlants(): MutableLiveData<List<Plant>> {
         val allPlants = MutableLiveData<List<Plant>>()
         firestoreDB.collection("plants").get()
+            .addOnSuccessListener { result -> allPlants.value = getPlantsWithIds(result)
+                Log.d(TAG,"wszystko poszło ok")}
+            .addOnFailureListener { exception -> Log.d(TAG,"Error getting documents: ", exception) }
+        return allPlants
+    }
+
+    private fun getAllLikedPlants(): MutableLiveData<MutableList<Plant>> {
+        var plantsList = mutableListOf<Plant>()
+        if (!likedPlantsIds.value.isNullOrEmpty()) {
+            for (plant in likedPlantsIds.value!!) {
+                val plantR = getPlantById(plant.id)
+                if (plantR.value?.id != "") {
+                    plantsList.add(plantR.value!!)
+                    _allLikedPlants.value = plantsList
+                }
+            }
+        }
+        return _allLikedPlants
+    }
+
+    private fun getPlantById(plantId: String): MutableLiveData<Plant> {
+        var plantResult = MutableLiveData<Plant>()
+        firestoreDB.collection("plants").document(plantId)
+            .get()
             .addOnSuccessListener { result ->
-                allPlants.value = getPlantsWithIds(result)
+//                    plantsList = plantsList.plus(
+//                        result.toObject(Plant::class.java)
+//                    ) as List<Plant>
+//                    _allLikedPlants.value = plantsList
+                plantResult.value = result.toObject(Plant::class.java)
             }
             .addOnFailureListener { exception ->
                 Log.d(TAG, "Error getting documents: ", exception)
             }
-        return allPlants
-    }
+        return plantResult
 
-    private fun getAllLikedPlants(): MutableLiveData<List<Plant>> {
-        var plantsList = listOf<Plant>()
-        if (!likedPlantsIds.value.isNullOrEmpty()) {
-            for (plant in likedPlantsIds.value!!) {
-                firestoreDB.collection("plants").document(plant.id).get()
-                    .addOnSuccessListener { result ->
-                        plantsList = plantsList.plus(
-                            result.toObject(Plant::class.java)
-                        ) as List<Plant>
-                        _allLikedPlants.value = plantsList
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.d(TAG, "Error getting documents: ", exception)
-                    }
-            }
-        }
-        return _allLikedPlants
     }
 
     fun getPlantsCreatedLast5days(): MutableLiveData<List<Plant>> {

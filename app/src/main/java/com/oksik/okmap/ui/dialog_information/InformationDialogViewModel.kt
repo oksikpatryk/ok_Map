@@ -38,6 +38,7 @@ class InformationDialogViewModel(application: Application) : ViewModel() {
         uiScope.launch {
             val likedPlant = LikedPlant(selectedPlant.value!!.id!!)
             repository.likePlant(likedPlant)
+//            repository.delete()
         }
     }
 

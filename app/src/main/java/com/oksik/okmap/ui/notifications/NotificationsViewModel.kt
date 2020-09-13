@@ -6,5 +6,5 @@ import com.oksik.okmap.repository.Repository
 
 class NotificationsViewModel(repository: Repository, application: Application) :
     AndroidViewModel(application) {
-    val getAllLikedPlants = repository.allLikedPlants
+//    val getAllLikedPlants = repository.allLikedPlants
 }

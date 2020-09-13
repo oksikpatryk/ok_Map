@@ -9,6 +9,6 @@ class HomeViewModelFactory(private val application: Application): ViewModelProvi
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(HomeViewModel::class.java))
             return HomeViewModel(application) as T
-        throw IllegalArgumentException("dupa2")
+        throw IllegalArgumentException("error")
     }
 }

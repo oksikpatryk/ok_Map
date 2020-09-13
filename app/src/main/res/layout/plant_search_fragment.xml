@@ -13,13 +13,28 @@
         tools:context=".ui.plant_search.PlantSearchFragment"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/editText"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/outlinedTextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@={viewModel.searchPlantName}" />
+            android:layout_margin="8dp"
+            android:hint="wyszukaj">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.searchPlantName}"
+                android:drawableEnd="@drawable/ic_baseline_search_24"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+<!--        <EditText-->
+<!--            android:id="@+id/editText"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:ems="10"-->
+<!--            android:inputType="textPersonName"-->
+<!--            android:text="@={viewModel.searchPlantName}"/>-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/plant_search_list"

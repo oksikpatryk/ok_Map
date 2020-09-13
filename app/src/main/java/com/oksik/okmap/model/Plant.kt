@@ -1,18 +1,19 @@
 package com.oksik.okmap.model
 
-import com.google.firebase.Timestamp
+import com.google.firebase.firestore.Exclude
 import java.io.Serializable
+import java.util.*
 
 data class Plant(
-    var id: String? = null,
-    var type: String? = null,
-    var name: String? = null,
-    var latitude: Double? = null,
-    var longitude: Double? = null,
-    var description: String? = null,
-    var miniImageUrl: String? = null,
-    var createDate: Timestamp? = null,
-    var pictures: List<String>? = null
+    @get: Exclude
+    var id: String? = "",
+    var type: String? = "",
+    var name: String? = "",
+    var latitude: Double? = 0.0,
+    var longitude: Double? = 0.0,
+    var createDate: Date? = null,
+    var description: String? = "",
+    var pictures: MutableList<String>? = mutableListOf()
 ) : Serializable {
     override fun equals(other: Any?): Boolean {
         val that = other as Plant
